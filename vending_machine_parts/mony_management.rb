@@ -1,0 +1,3 @@
+class MoneyManagement
+
+end
