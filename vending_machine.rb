@@ -13,7 +13,6 @@ class VendingMachine
       @salse_managemant = SalseManagemant.new
       mode_selection
     end
-  
     def mode_selection
       loop { 
         user_input = gets.chomp
