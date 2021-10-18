@@ -1,8 +1,8 @@
 require './product'
 require './vending_machine_parts/insert'
 require './vending_machine_parts/stock'
-require './vending_machine_parts/salse_managemant'
-require './vending_machine_parts/mony_managemant'
+require './vending_machine_parts/salse_management'
+require './vending_machine_parts/mony_management'
 
 class VendingMachine
 
@@ -10,7 +10,7 @@ class VendingMachine
       @product = Product.new
       @insert = Insert.new
       @stock = Stock.new
-      @salse_managemant = SalseManagemant.new
+      @salse_management = SalseManagement.new
       mode_selection
     end
     def mode_selection
