@@ -1,4 +1,5 @@
 class Product
+  attr_reader :drink_data
   def initialize
     @drink_data = {}
     #{number: { name: name, price: price }}
@@ -10,7 +11,7 @@ class Product
     if @drink_data[number]  #上書き防止、すでにナンバーが登録されていたら戻り値としてfalseを返します。
       return false
     else
-      @drink_data[number.to_sym] = {name: name, price: price}
+      @drink_data[number] = {name: name, price: price}
     end
   end
   def change_name(number, name) # 引数のデータ型　(symbol, string)
@@ -33,8 +34,5 @@ class Product
     else
       return false
     end
-  end
-  def drink_data # インスタンス変数の出力
-    @drink_data
   end
 end
