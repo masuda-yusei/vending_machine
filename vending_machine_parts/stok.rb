@@ -1,4 +1,5 @@
 class Stock
+  atter_reader :stock_count, :drink_stock
   def initialize(count) #自販機の箱（ボタン）の数を引数として取り込み、データ型：integer 入力制限：1 ~ 20
     #配列内配列
     @stock_count = count
@@ -8,28 +9,31 @@ class Stock
       @drink_stock[n.chr.to_sym] = []
       n +=1
     }
-    #[[001, 5],[002, 5]]
     #{A: [001, 5], B: [002, 8] }
     drink_addition(:A, :d001, 5)
   end
   def drink_addition(stock_position, drink_number, count) # 引数のデータ型（symbol, symbol, integer）
-    @drink_stock[stock_position] = [drink_number, count] # 既存の値があっても上書きになります。
+    if @drink_stock[stock_position]
+      @drink_stock[stock_position] = [drink_number, count] # 既存の値があっても上書きになります。
+    else
+      return false
+    end
   end
   def drink_increase(stock_position, count) # 引数のデータ型:(symbol, integer)
-    if @drink_stock[stock_position][1] >= 0
+    if @drink_stock[stock_position][1] >= 0 && @drink_stock[stock_position]
       @drink_stock[stock_position][1] += count
     else
       return false
     end
   end
   def drink_decrease(stock_position, count) # 引数のデータ型:(symbol, integer)
-    if @drink_stock[stock_position][1] >= 1
+    if @drink_stock[stock_position][1] >= 1 && @drink_stock[stock_position]
       @drink_stock[stock_position][1] -= count
     else
       return false
     end
   end
-  def drink_deleate(stock_position)
+  def drink_delete(stock_position)
     if @drink_stock[stock_position]
       @drink_stock[stock_position] == []
     else
@@ -37,17 +41,21 @@ class Stock
     end
   end
   def drink_buyable_judgement(stock_position, drink_data, slot_money) # 引数を追加しました! データ型：(symbol, hash *@priduct.drink_data, integer *@insert.slot_money  )
-    case @drink_stock[stock_position][1]
-    when nil
-      return 4
-    when 0
-      return 3
-    else
-      if drink_data[@drink_stock[stock_position][0]][:price] <= slot_money
-        return 1
+    if @drink_stock[stock_position]
+      case @drink_stock[stock_position][1]
+      when nil
+        return 4
+      when 0
+        return 3
       else
-        return 2
+        if drink_data[@drink_stock[stock_position][0]][:price] <= slot_money
+          return 1
+        else
+          return 2
+        end
       end
+    else
+      return false
     end
   #期待する戻り値　1or2or3or4
   #1:購入可能
@@ -90,12 +98,6 @@ class Stock
       end
       puts "[#{position.to_s} #{msg}] 商品名：「#{name}」 価格：#{price}円 数量：#{count}本 "
     end
-  end
-  def drink_stock
-    @drink_stock
-  end
-  def stock_count
-    @stock_count
   end
 end
 
